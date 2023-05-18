@@ -23,6 +23,34 @@ router.get("/", (req, res) => {
     .catch((error) => res.status(500).json(error));
 });
 
+// get a single category and its products based on the id
+router.get("/:id", (req, res) => {
+  Category.findOne({
+    where: {
+      id: req.params.id,
+    },
+    include: [
+      {
+        model: Product,
+        as: "products",
+      },
+    ],
+  })
+    .then((result) => {
+      if (!result) {
+        res.status(404).json({
+          success: false,
+          message: "No category found with the provided ID",
+        });
+      } else {
+        res.json(result);
+      }
+    })
+    .catch((error) => res.status(500).json(error));
+});
+
+
+
 router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
