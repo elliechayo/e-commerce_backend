@@ -86,26 +86,25 @@ router.put("/:id", (req, res) => {
 });
 
 
-router.get('/', (req, res) => {
-  // find all categories
-  // be sure to include its associated Products
+// delete a category
+router.delete("/:id", (req, res) => {
+  Category.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((result) => {
+      if (!result) {
+        res.status(404).json({
+          success: false,
+          message: "No Category found with the provided ID",
+        });
+      } else {
+        res.json({ success: true, message: "Sucessfully Deleted" });
+      }
+    })
+    .catch((error) => res.status(500).json(error));
 });
 
-router.get('/:id', (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
-});
-
-router.post('/', (req, res) => {
-  // create a new category
-});
-
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
-});
-
-router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
-});
 
 module.exports = router;
