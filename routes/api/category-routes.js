@@ -50,6 +50,15 @@ router.get("/:id", (req, res) => {
 });
 
 
+// create a new category
+router.post("/", (req, res) => {
+  Category.create({
+    category_name: req.body.category_name,
+  })
+    .then((result) => res.json(result))
+    .catch((error) => res.status(500).json(error));
+});
+
 
 router.get('/', (req, res) => {
   // find all categories
