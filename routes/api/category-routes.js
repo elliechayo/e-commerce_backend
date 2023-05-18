@@ -60,6 +60,32 @@ router.post("/", (req, res) => {
 });
 
 
+// edit a category name
+router.put("/:id", (req, res) => {
+  Category.update(
+    {
+      category_name: req.body.category_name,
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then((result) => {
+      if (!result) {
+        res.status(404).json({
+          success: false,
+          message: "No Category found with the provided ID",
+        });
+      } else {
+        res.json(result);
+      }
+    })
+    .catch((error) => res.status(500).json(error));
+});
+
+
 router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
